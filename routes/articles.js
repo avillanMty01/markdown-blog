@@ -9,9 +9,9 @@ router.get('/new', (req, res) => {
     res.render('articles/new', { article: new Article() })
 })
 
-router.get('/:id', async (req, res) => {
-    // tell mongoose to find article
-    const article = await Article.findById(req.params.id)
+router.get('/:slug', async (req, res) => {
+    // tell mongoose to find article by slug (modification 45:35 in video)
+    const article = await Article.findOne( { slug: req.params.slug })
     // if error fetching doc, redirect to homepage
     if (article == null ) res.redirect('/')
     res.render('articles/show', { article: article } )
@@ -26,11 +26,17 @@ router.post('/', async (req, res) => {
     })
     try {
         article = await article.save()    // returns our ID for our article
-        res.redirect(`/articles/${article.id}`)
+        res.redirect(`/articles/${article.slug}`)
     } catch (err) {
         console.log(err)
         res.render('articles/new', { article })
     }
 })
+
+router.delete('/:id', async (req, res) => {
+    await Article.findByIdAndDelete(req.params.id)
+    res.redirect('/')
+})
+
 
 module.exports = router

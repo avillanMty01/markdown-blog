@@ -3,14 +3,17 @@ const express = require('express')
 const mongoose = require('mongoose')
 const Article = require('./models/article')
 const articleRouter = require('./routes/articles')
+const methodOverride = require('method-override')
 const app = express()
 
 mongoose.connect('mongodb://localhost:27017/blog',
     { useNewUrlParser: true,
-    useUnifiedTopology: true })
+    useUnifiedTopology: true,
+    useCreateIndex: true })
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))  // we tell our app to get body for post requests
+app.use(methodOverride('_method'))
 
 // routes
 
@@ -31,4 +34,4 @@ app.get('/', async (req, res) => {
 app.use('/articles', articleRouter)  // in our articles routes prepends the ./articles to the url
 
 
-app.listen(5000)
+app.listen(3000)

@@ -16,11 +16,14 @@
         <% articles.forEach(article => { %>
             <div class="card mt-4">
                 <div class="card-body">
-                    <a href="articles/<%= article.id %>" class="text-decoration-none"><h4 class="cart-title"><%= article.title %></h4></a>
+                    <a href="articles/<%= article.slug %>" class="text-decoration-none"><h4 class="cart-title"><%= article.title %></h4></a>
                     <div class="card-subtitle">
                         <%= article.createdAt.toLocaleDateString() %>
                     </div>
                     <div class="card-text mb-2"><%= article.description %></div>
+                    <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
                 </div>
             </div>
         <% }) %> 
