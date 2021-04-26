@@ -42,4 +42,4 @@ app.get('/', async (req, res) => {
 app.use('/articles', articleRouter)  // in our articles routes prepends the ./articles to the url
 
 
-app.listen(3000)
+app.listen(process.env.PORT || 3000)
