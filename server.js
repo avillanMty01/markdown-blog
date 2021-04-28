@@ -7,6 +7,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const Article = require('./models/article')
 const articleRouter = require('./routes/articles')
+const Comment = require('./models/comment')
+const commentRouter = require('./routes/comments')
 const methodOverride = require('method-override')
 const app = express()
 
@@ -40,6 +42,7 @@ app.get('/', async (req, res) => {
 
 
 app.use('/articles', articleRouter)  // in our articles routes prepends the ./articles to the url
+app.use('/comments', commentRouter)
 
 
 app.listen(process.env.PORT || 3000)

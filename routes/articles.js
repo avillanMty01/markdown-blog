@@ -1,6 +1,7 @@
 // all routes for articles go here
 const express = require('express')
 const Article = require('./../models/article')
+const Comment = require('./../models/comment')
 const router = express.Router()
 
 // watch it: the '/' corresponds to root of /articles un url
@@ -17,9 +18,13 @@ router.get('/edit/:id', async (req, res) => {
 router.get('/:slug', async (req, res) => {
     // tell mongoose to find article by slug (modification 45:35 in video)
     const article = await Article.findOne( { slug: req.params.slug })
+    const comments = await Comment.find({ parentId: article.id }).sort({
+        createdAt: 'desc' })
+
     // if error fetching doc, redirect to homepage
     if (article == null ) res.redirect('/')
-    res.render('articles/show', { article: article } )
+    res.render('articles/show', { article: article,
+    comments: comments } )
 
 })
 

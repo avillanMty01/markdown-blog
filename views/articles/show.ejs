@@ -20,7 +20,18 @@
         <div class="mt-4">
             <%- article.sanitizedHtml %> 
         </div>
-    
+    </div>
+    <hr>
+    <div class="container">
+        <form action="/comments" method="post" class="d-inline">
+            <%- include('../comments/_form_fields', { articleId: article.id }) %> 
+            <button type="submit" class="btn btn-primary mt-2">Save</button>
+        </form>
+    </div>
+    <div class="container">
+        <% comments.forEach(comment => { %>
+            <p class="text-muted"><small><%= comment.comment %></small></p>
+        <% }) %> 
     </div>
 </body>
 </html>
