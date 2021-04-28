@@ -18,14 +18,17 @@ router.get('/edit/:id', async (req, res) => {
 router.get('/:slug', async (req, res) => {
     // tell mongoose to find article by slug (modification 45:35 in video)
     const article = await Article.findOne( { slug: req.params.slug })
-    const comments = await Comment.find({ parentId: article.id }).sort({
-        createdAt: 'desc' })
-
+        
     // if error fetching doc, redirect to homepage
-    if (article == null ) res.redirect('/')
-    res.render('articles/show', { article: article,
-    comments: comments } )
-
+    if (article == null ) { 
+        console.log('error en find article when saving')
+        res.redirect('/')
+    } else { 
+        const comments = await Comment.find({ parentId: article.id }).sort({
+            createdAt: 'desc' })
+        res.render('articles/show', { article: article,
+        comments: comments } )
+    }
 })
 
 router.post('/', async (req, res, next) => {
